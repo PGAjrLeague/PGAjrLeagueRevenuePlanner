@@ -117,7 +117,7 @@
             pointer-events: none;
         }
         
-        input[type="number"], input[type="email"] {
+        input[type="number"], input[type="email"], select {
             width: 100%;
             padding: 15px;
             padding-left: 15px;
@@ -134,7 +134,7 @@
             padding-left: 35px;
         }
         
-        input[type="number"]:focus, input[type="email"]:focus {
+        input[type="number"]:focus, input[type="email"]:focus, select:focus {
             outline: none;
             border-color: #1e3a5f;
             background: white;
@@ -349,6 +349,33 @@
             font-size: 1.1em;
             margin: 10px 0;
         }
+        
+        .assistant-coaches-section {
+            background: #f0f6fc;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+        
+        .add-coach-btn {
+            background: #1e3a5f;
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        
+        .remove-coach-btn {
+            background: #dc3545;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
     </style>
 </head>
 <body>
@@ -361,14 +388,6 @@
             <h2 class="section-title">📅 Program Planning</h2>
             <div class="input-section">
                 <div class="input-group">
-                    <label for="numCoaches">Number of Coaches Participating</label>
-                    <p class="hint-text">Include yourself and any assistant coaches</p>
-                    <div class="input-wrapper">
-                        <input type="number" id="numCoaches" min="1" max="20" value="2" step="1">
-                    </div>
-                </div>
-                
-                <div class="input-group">
                     <label for="studentRatio">Student to Coach Ratio</label>
                     <p class="hint-text">We recommend 6:1 for optimal instruction</p>
                     <div class="input-wrapper">
@@ -377,49 +396,90 @@
                 </div>
                 
                 <div class="input-group">
-                    <label for="practiceDaysPerWeek">Practice Days per Week</label>
-                    <p class="hint-text">Each practice session is 1 hour</p>
-                    <div class="input-wrapper">
-                        <input type="number" id="practiceDaysPerWeek" min="0" max="7" value="1" step="1">
-                    </div>
-                </div>
-                
-                <div class="input-group">
-                    <label for="practiceHoursPerDay">Practice Sessions per Day</label>
-                    <p class="hint-text">How many 1-hour sessions per practice day?</p>
-                    <p style="color: #888; font-size: 0.8em; margin-top: 5px; line-height: 1.4;">
-                        If you plan on hosting multiple teams/divisions on the same day, be sure to reflect that here.<br>
-                        <strong>ADM Guidelines:</strong> 9u - 45 min (fun-focused) | 13u - 30-60 min | 17u - 45-90 min
-                    </p>
-                    <div class="input-wrapper">
-                        <input type="number" id="practiceHoursPerDay" min="0" max="8" value="1" step="1">
-                    </div>
-                </div>
-                
-                <div class="input-group">
-                    <label for="gameDaysPerWeek">Game Days per Week</label>
-                    <p class="hint-text">Each game day is projected at 3 hours</p>
-                    <div class="input-wrapper">
-                        <input type="number" id="gameDaysPerWeek" min="0" max="7" value="1" step="1">
-                    </div>
-                </div>
-                
-                <div class="input-group">
-                    <label for="weeksInSeason">Weeks in Program</label>
-                    <p class="hint-text">Typical program is 8-12 weeks</p>
-                    <div class="input-wrapper">
-                        <input type="number" id="weeksInSeason" min="1" max="52" value="8" step="1">
-                    </div>
-                </div>
-                
-                <div class="input-group">
-                    <label for="idealHourlyRate">Ideal Hourly Rate per Coach</label>
-                    <p class="hint-text">Target earnings per coach per hour</p>
+                    <label for="leadCoachRate">Lead Coach Hourly Rate</label>
+                    <p class="hint-text">Your target hourly rate</p>
                     <div class="input-wrapper">
                         <span class="currency-symbol">$</span>
-                        <input type="number" id="idealHourlyRate" min="0" max="500" value="75" step="5" class="with-currency">
+                        <input type="number" id="leadCoachRate" min="0" max="500" value="75" step="5" class="with-currency">
                     </div>
                 </div>
+                
+                <div class="input-group">
+                    <label for="practiceDuration">Practice Duration</label>
+                    <p class="hint-text">Typical practice is about 1 hour</p>
+                    <div class="input-wrapper">
+                        <select id="practiceDuration">
+                            <option value="0.5">30 minutes</option>
+                            <option value="0.583">35 minutes</option>
+                            <option value="0.667">40 minutes</option>
+                            <option value="0.75">45 minutes</option>
+                            <option value="0.833">50 minutes</option>
+                            <option value="0.917">55 minutes</option>
+                            <option value="1" selected>1 hour</option>
+                            <option value="1.083">1 hour 5 min</option>
+                            <option value="1.167">1 hour 10 min</option>
+                            <option value="1.25">1 hour 15 min</option>
+                            <option value="1.333">1 hour 20 min</option>
+                            <option value="1.417">1 hour 25 min</option>
+                            <option value="1.5">1 hour 30 min</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="gameDuration">Game Day Duration</label>
+                    <p class="hint-text">Typical game day is about 3 hours</p>
+                    <div class="input-wrapper">
+                        <select id="gameDuration">
+                            <option value="2">2 hours</option>
+                            <option value="2.25">2 hours 15 min</option>
+                            <option value="2.5">2 hours 30 min</option>
+                            <option value="2.75">2 hours 45 min</option>
+                            <option value="3" selected>3 hours</option>
+                            <option value="3.25">3 hours 15 min</option>
+                            <option value="3.5">3 hours 30 min</option>
+                            <option value="3.75">3 hours 45 min</option>
+                            <option value="4">4 hours</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="totalPractices">Total Practices in Program</label>
+                    <p class="hint-text">Total number of practice sessions</p>
+                    <p style="color: #888; font-size: 0.8em; margin-top: 5px; line-height: 1.4;">
+                        The typical PGA Jr. League program will practice once a week. Feel free to meet more or less often as you see fit! Don't forget to account for team meetings!
+                    </p>
+                    <div class="input-wrapper">
+                        <input type="number" id="totalPractices" min="0" max="100" value="8" step="1">
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="totalGameDays">Total Game Days in Program</label>
+                    <p class="hint-text">Total number of game days</p>
+                    <p style="color: #888; font-size: 0.8em; margin-top: 5px; line-height: 1.4;">
+                        The typical PGA Jr. League program will have a game day once a week. Feel free to increase or decrease this.
+                    </p>
+                    <div class="input-wrapper">
+                        <input type="number" id="totalGameDays" min="0" max="100" value="8" step="1">
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="weeksInProgram">Weeks in Program</label>
+                    <p class="hint-text">Typical program is 8-12 weeks</p>
+                    <div class="input-wrapper">
+                        <input type="number" id="weeksInProgram" min="1" max="52" value="8" step="1">
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Assistant Coaches Section -->
+            <div class="assistant-coaches-section">
+                <h3 style="color: #1e3a5f; margin-bottom: 15px;">Assistant Coaches (Optional)</h3>
+                <div id="assistantCoachesList"></div>
+                <button class="add-coach-btn" onclick="addAssistantCoach()">+ Add Assistant Coach</button>
             </div>
             
             <!-- Team Recommendation -->
@@ -431,9 +491,10 @@
             <!-- Program Capacity -->
             <div id="capacityInfo" class="info-banner">
                 <h3>📊 Program Capacity</h3>
-                <p>Based on your staffing: <strong><span id="maxStudents">12</span> students maximum</strong> (<span id="numCoachesDisplay">2</span> coaches × <span id="ratioDisplay">6</span>:1 ratio)</p>
-                <p>Total contact hours per week: <strong><span id="weeklyHours">4</span> hours</strong> (<span id="practiceHours">1</span> practice + <span id="gameHours">3</span> game)</p>
-                <p>Total program hours: <strong><span id="totalSeasonHours">32</span> hours</strong> over <span id="seasonWeeks">8</span> weeks</p>
+                <p>Based on your staffing: <strong><span id="maxStudents">6</span> students maximum</strong> (<span id="numCoachesDisplay">1</span> coach × <span id="ratioDisplay">6</span>:1 ratio)</p>
+                <p>Total practice hours: <strong><span id="totalPracticeHours">8</span> hours</strong> (<span id="numPractices">8</span> practices × <span id="practiceLength">1</span> hour)</p>
+                <p>Total game hours: <strong><span id="totalGameHours">24</span> hours</strong> (<span id="numGames">8</span> games × <span id="gameLength">3</span> hours)</p>
+                <p>Total program contact hours: <strong><span id="totalProgramHours">32</span> hours</strong></p>
             </div>
             
             <!-- Program Expenses Section -->
@@ -497,7 +558,7 @@
                         </div>
                     </div>
                 </div>
-                <p style="text-align: center; color: #666; margin-top: 15px; font-style: italic;">All expenses are calculated for the entire <span id="seasonLength">8</span>-week program</p>
+                <p style="text-align: center; color: #666; margin-top: 15px; font-style: italic;">All expenses are calculated for the entire <span id="programLength">8</span>-week program</p>
             </div>
             
             <!-- Recommended Pricing Section -->
@@ -506,7 +567,7 @@
                 <div class="results-grid">
                     <div class="result-item highlight">
                         <div class="result-label">Recommended Program Fee</div>
-                        <div class="result-value" id="recommendedFee">$325</div>
+                        <div class="result-value" id="recommendedFee">$600</div>
                     </div>
                     <div class="result-item">
                         <div class="result-label">Total Coaching Costs</div>
@@ -518,7 +579,7 @@
                     </div>
                     <div class="result-item">
                         <div class="result-label">Break-Even Students</div>
-                        <div class="result-value" id="breakEvenStudents">13</div>
+                        <div class="result-value" id="breakEvenStudents">7</div>
                     </div>
                 </div>
                 
@@ -526,23 +587,31 @@
                     <div class="breakdown-title">Pricing Calculation Breakdown</div>
                     <div class="breakdown-item">
                         <span class="breakdown-label">Total coaching hours (all coaches):</span>
-                        <span class="breakdown-value" id="totalCoachingHours">64</span>
+                        <span class="breakdown-value" id="totalCoachingHours">32</span>
+                    </div>
+                    <div class="breakdown-item">
+                        <span class="breakdown-label">Lead coach cost:</span>
+                        <span class="breakdown-value" id="leadCoachCost">$2,400</span>
+                    </div>
+                    <div class="breakdown-item" id="assistantCoachCostRow" style="display: none;">
+                        <span class="breakdown-label">Assistant coaches cost:</span>
+                        <span class="breakdown-value" id="assistantCoachCost">$0</span>
                     </div>
                     <div class="breakdown-item">
                         <span class="breakdown-label">Coaching cost per student:</span>
-                        <span class="breakdown-value" id="coachingPerStudent">$200</span>
+                        <span class="breakdown-value" id="coachingPerStudent">$400</span>
                     </div>
                     <div class="breakdown-item">
                         <span class="breakdown-label">Other expenses per student:</span>
-                        <span class="breakdown-value" id="otherExpensePerStudent">$125</span>
+                        <span class="breakdown-value" id="otherExpensePerStudent">$250</span>
                     </div>
                     <div class="breakdown-item" style="border-top: 2px solid #1e3a5f; margin-top: 15px; padding-top: 15px;">
                         <span class="breakdown-label" style="font-weight: 600;">Total cost per student:</span>
-                        <span class="breakdown-value" id="totalCostPerStudent" style="font-weight: 700;">$325</span>
+                        <span class="breakdown-value" id="totalCostPerStudent" style="font-weight: 700;">$650</span>
                     </div>
                     <div class="breakdown-item">
                         <span class="breakdown-label" style="font-weight: 600;">Recommended fee to break even:</span>
-                        <span class="breakdown-value" id="breakEvenFee" style="font-weight: 700;">$325</span>
+                        <span class="breakdown-value" id="breakEvenFee" style="font-weight: 700;">$650</span>
                     </div>
                 </div>
             </div>
@@ -555,15 +624,15 @@
                     <p class="hint-text">Auto-filled with recommended fee (adjust as needed)</p>
                     <div class="input-wrapper">
                         <span class="currency-symbol">$</span>
-                        <input type="number" id="actualFee" min="0" max="2000" value="325" step="10" class="with-currency">
+                        <input type="number" id="actualFee" min="0" max="2000" value="650" step="10" class="with-currency">
                     </div>
                 </div>
                 
                 <div class="input-group">
                     <label for="enrolledStudents">Enrolled Students</label>
-                    <p class="hint-text">Auto-filled with break-even number (max: <span id="maxCapacity">12</span>)</p>
+                    <p class="hint-text">Auto-filled with break-even number (max: <span id="maxCapacity">6</span>)</p>
                     <div class="input-wrapper">
-                        <input type="number" id="enrolledStudents" min="0" max="100" value="12" step="1">
+                        <input type="number" id="enrolledStudents" min="0" max="100" value="6" step="1">
                     </div>
                 </div>
             </div>
@@ -574,19 +643,19 @@
                 <div class="results-grid">
                     <div class="result-item">
                         <div class="result-label">Total Revenue</div>
-                        <div class="result-value" id="totalRevenue">$3,500</div>
+                        <div class="result-value" id="totalRevenue">$3,900</div>
                     </div>
                     <div class="result-item">
                         <div class="result-label">Total Expenses</div>
-                        <div class="result-value" id="totalExpenses" style="color: #ff6b6b;">$3,250</div>
+                        <div class="result-value" id="totalExpenses" style="color: #ff6b6b;">$3,900</div>
                     </div>
                     <div class="result-item highlight">
                         <div class="result-label">NET PROFIT</div>
-                        <div class="result-value" id="netProfit" style="font-size: 2.3em;">$250</div>
+                        <div class="result-value" id="netProfit" style="font-size: 2.3em;">$0</div>
                     </div>
                     <div class="result-item">
                         <div class="result-label">Profit Margin</div>
-                        <div class="result-value" id="profitMargin">7%</div>
+                        <div class="result-value" id="profitMargin">0%</div>
                     </div>
                 </div>
                 
@@ -594,19 +663,19 @@
                     <div class="breakdown-title">Per Student Analysis</div>
                     <div class="breakdown-item">
                         <span class="breakdown-label">Revenue per student (program fee):</span>
-                        <span class="breakdown-value" id="revenuePerStudent">$350</span>
+                        <span class="breakdown-value" id="revenuePerStudent">$650</span>
                     </div>
                     <div class="breakdown-item">
                         <span class="breakdown-label">Coaching cost per student:</span>
-                        <span class="breakdown-value" id="coachingCostPerStudent">$200</span>
+                        <span class="breakdown-value" id="coachingCostPerStudent">$400</span>
                     </div>
                     <div class="breakdown-item">
                         <span class="breakdown-label">Other expenses per student:</span>
-                        <span class="breakdown-value" id="otherExpensesPerStudent">$125</span>
+                        <span class="breakdown-value" id="otherExpensesPerStudent">$250</span>
                     </div>
                     <div class="breakdown-item" style="border-top: 2px solid #1e3a5f; margin-top: 15px; padding-top: 15px;">
                         <span class="breakdown-label" style="font-weight: 600;">Net profit per student:</span>
-                        <span class="breakdown-value" id="netPerStudent" style="color: #5cb85c; font-weight: 700;">$25</span>
+                        <span class="breakdown-value" id="netPerStudent" style="color: #5cb85c; font-weight: 700;">$0</span>
                     </div>
                 </div>
             </div>
@@ -649,14 +718,18 @@
     </div>
     
     <script>
+        // Track assistant coaches
+        let assistantCoaches = [];
+        let assistantCoachIdCounter = 0;
+        
         // Get all input elements
-        const numCoaches = document.getElementById('numCoaches');
         const studentRatio = document.getElementById('studentRatio');
-        const practiceDaysPerWeek = document.getElementById('practiceDaysPerWeek');
-        const practiceHoursPerDay = document.getElementById('practiceHoursPerDay');
-        const gameDaysPerWeek = document.getElementById('gameDaysPerWeek');
-        const weeksInSeason = document.getElementById('weeksInSeason');
-        const idealHourlyRate = document.getElementById('idealHourlyRate');
+        const leadCoachRate = document.getElementById('leadCoachRate');
+        const practiceDuration = document.getElementById('practiceDuration');
+        const gameDuration = document.getElementById('gameDuration');
+        const totalPractices = document.getElementById('totalPractices');
+        const totalGameDays = document.getElementById('totalGameDays');
+        const weeksInProgram = document.getElementById('weeksInProgram');
         const actualFee = document.getElementById('actualFee');
         const enrolledStudents = document.getElementById('enrolledStudents');
         
@@ -710,9 +783,38 @@
             ]
         };
         
+        // Add assistant coach function
+        function addAssistantCoach() {
+            const id = assistantCoachIdCounter++;
+            const coachDiv = document.createElement('div');
+            coachDiv.id = `coach-${id}`;
+            coachDiv.style.marginBottom = '10px';
+            coachDiv.innerHTML = `
+                <input type="number" id="assistantRate-${id}" placeholder="Hourly rate" min="0" max="500" step="5" style="width: 150px; margin-right: 10px;">
+                <span>$ per hour</span>
+                <button class="remove-coach-btn" onclick="removeAssistantCoach(${id})">Remove</button>
+            `;
+            document.getElementById('assistantCoachesList').appendChild(coachDiv);
+            
+            // Add event listener to new input
+            document.getElementById(`assistantRate-${id}`).addEventListener('input', function() {
+                calculateAll(true);
+            });
+            
+            assistantCoaches.push({ id: id, rate: 0 });
+            calculateAll(true);
+        }
+        
+        // Remove assistant coach function
+        function removeAssistantCoach(id) {
+            document.getElementById(`coach-${id}`).remove();
+            assistantCoaches = assistantCoaches.filter(coach => coach.id !== id);
+            calculateAll(true);
+        }
+        
         // Update practice guide
         function updatePracticeGuide() {
-            const weeks = parseInt(weeksInSeason.value) || 8;
+            const weeks = parseInt(weeksInProgram.value) || 8;
             const guideWeeksElement = document.getElementById('guideWeeks');
             const practiceContent = document.getElementById('practiceContent');
             
@@ -773,8 +875,8 @@
         function addEventListeners() {
             // All inputs except actualFee and enrolledStudents
             const planningInputs = [
-                numCoaches, studentRatio, practiceDaysPerWeek, practiceHoursPerDay,
-                gameDaysPerWeek, weeksInSeason, idealHourlyRate,
+                studentRatio, leadCoachRate, practiceDuration, gameDuration,
+                totalPractices, totalGameDays, weeksInProgram,
                 golfCourseAccess, rangeAccess, teeGifts, prizes, snacks, miscellaneous
             ];
             
@@ -794,7 +896,7 @@
             });
             
             // Special listener for weeks to update practice guide
-            weeksInSeason.addEventListener('input', updatePracticeGuide);
+            weeksInProgram.addEventListener('input', updatePracticeGuide);
         }
         
         // Format currency
@@ -807,6 +909,19 @@
             }).format(amount);
         }
         
+        // Format hours
+        function formatHours(hours) {
+            const wholeHours = Math.floor(hours);
+            const minutes = Math.round((hours - wholeHours) * 60);
+            if (minutes === 0) {
+                return wholeHours === 1 ? '1 hour' : `${wholeHours} hours`;
+            }
+            if (wholeHours === 0) {
+                return `${minutes} min`;
+            }
+            return `${wholeHours} hr ${minutes} min`;
+        }
+        
         // Email results function
         function emailResults() {
             const emailAddress = document.getElementById('emailAddress').value;
@@ -816,13 +931,12 @@
             }
             
             // Gather all the data
-            const weeks = document.getElementById('weeksInSeason').value;
+            const weeks = document.getElementById('weeksInProgram').value;
             const revenue = document.getElementById('totalRevenue').textContent;
             const expenses = document.getElementById('totalExpenses').textContent;
             const netProfit = document.getElementById('netProfit').textContent;
             const recommendedFee = document.getElementById('recommendedFee').textContent;
             const students = document.getElementById('enrolledStudents').value;
-            const coaches = document.getElementById('numCoaches').value;
             
             // Get the appropriate practice guide
             let guideToUse = null;
@@ -853,35 +967,34 @@
             practiceGuideText += 'https://resources.pga.org/increase-revenue/player-engagement/pga-player-engagement-consultants\n';
             
             // Create email content
-            const subject = `PGA Jr. League Program Plan - ${weeks} Week Season`;
+            const subject = `PGA Jr. League Program Plan - ${weeks} Week Program`;
             const body = `
 PGA JR. LEAGUE PROGRAM SUMMARY
 ================================
 
-SEASON DETAILS:
-- Season Length: ${weeks} weeks
-- Number of Coaches: ${coaches}
+PROGRAM DETAILS:
+- Program Length: ${weeks} weeks
 - Maximum Capacity: ${document.getElementById('maxStudents').textContent} students
 - Enrolled Students: ${students}
+- Total Practices: ${document.getElementById('totalPractices').value}
+- Total Game Days: ${document.getElementById('totalGameDays').value}
 
 FINANCIAL SUMMARY:
-- Recommended Season Fee: ${recommendedFee}
-- Your Season Fee: ${document.getElementById('actualFee').value}
+- Recommended Program Fee: ${recommendedFee}
+- Your Program Fee: $${document.getElementById('actualFee').value}
 - Total Revenue: ${revenue}
 - Total Expenses: ${expenses}
 - Net Profit: ${netProfit}
 - Profit Margin: ${document.getElementById('profitMargin').textContent}
 
-WEEKLY SCHEDULE:
-- Practice Days: ${document.getElementById('practiceDaysPerWeek').value} per week
-- Game Days: ${document.getElementById('gameDaysPerWeek').value} per week
-- Total Weekly Hours: ${document.getElementById('weeklyHours').textContent}
+SCHEDULE:
+- Practice Duration: ${formatHours(parseFloat(practiceDuration.value))}
+- Game Duration: ${formatHours(parseFloat(gameDuration.value))}
+- Total Program Hours: ${document.getElementById('totalProgramHours').textContent}
 
 ${practiceGuideText}
 
 PROGRAM NOTES:
-- Each practice session is 1 hour (adjust for age divisions as needed)
-- Each game day is projected at 3 hours
 - Recommended student-coach ratio: 6:1
 - Consider splitting larger groups into multiple teams
 
@@ -905,110 +1018,48 @@ Visit the calculator to adjust your planning and see updated recommendations.
         // Calculate everything
         function calculateAll(updateRecommendations = false) {
             // Get values
-            const coaches = parseInt(numCoaches.value) || 0;
             const ratio = parseInt(studentRatio.value) || 1;
-            const practiceDays = parseInt(practiceDaysPerWeek.value) || 0;
-            const practiceHours = parseInt(practiceHoursPerDay.value) || 0;
-            const gameDays = parseInt(gameDaysPerWeek.value) || 0;
-            const weeks = parseInt(weeksInSeason.value) || 0;
-            const hourlyRate = parseFloat(idealHourlyRate.value) || 0;
+            const leadRate = parseFloat(leadCoachRate.value) || 0;
+            const practiceDur = parseFloat(practiceDuration.value) || 1;
+            const gameDur = parseFloat(gameDuration.value) || 3;
+            const practices = parseInt(totalPractices.value) || 0;
+            const games = parseInt(totalGameDays.value) || 0;
+            const weeks = parseInt(weeksInProgram.value) || 0;
             const fee = parseFloat(actualFee.value) || 0;
             const students = parseInt(enrolledStudents.value) || 0;
             
+            // Update assistant coach rates from inputs
+            assistantCoaches.forEach(coach => {
+                const rateInput = document.getElementById(`assistantRate-${coach.id}`);
+                if (rateInput) {
+                    coach.rate = parseFloat(rateInput.value) || 0;
+                }
+            });
+            
+            // Calculate total coaches
+            const totalCoaches = 1 + assistantCoaches.length;
+            
             // Update program length display
-            document.getElementById('seasonLength').textContent = weeks;
+            document.getElementById('programLength').textContent = weeks;
             
-            // Check for team recommendation
-            const teamRecommendationBox = document.getElementById('teamRecommendation');
-            const teamRecommendationText = document.getElementById('teamRecommendationText');
-            
-            // Calculate max capacity with current setup
-            const maxStudentCapacity = coaches * ratio;
-            
-            // Enhanced team recommendation logic
-            if (students > maxStudentCapacity && (practiceDays > 1 || practiceHours > 1)) {
-                // User wants more students than current capacity AND has multiple practice slots
-                const totalPracticeSessionsPerWeek = practiceDays * practiceHours;
-                const studentsPerSession = coaches * ratio;
-                const sessionsNeeded = Math.ceil(students / studentsPerSession);
-                
-                teamRecommendationBox.style.display = 'block';
-                
-                if (practiceDays > 1) {
-                    // Multiple days available
-                    teamRecommendationText.innerHTML = `
-                        <strong>📋 Multiple Teams Recommended!</strong><br>
-                        You want ${students} students but your current capacity is only ${maxStudentCapacity} students per session.<br><br>
-                        <strong>Solution:</strong> Create ${sessionsNeeded} separate teams!<br>
-                        For example: 
-                        <ul style="margin-top: 10px; margin-left: 20px;">
-                            <li><strong>Team A:</strong> Practice on ${practiceDays >= 2 ? 'Tuesday' : 'Day 1'} (${studentsPerSession} students)</li>
-                            <li><strong>Team B:</strong> Practice on ${practiceDays >= 2 ? 'Thursday' : 'Day 2'} (${studentsPerSession} students)</li>
-                            ${sessionsNeeded > 2 ? '<li><strong>Team C:</strong> Practice on another day</li>' : ''}
-                        </ul>
-                        <br>Each team gets 1 practice + 1 game day per week. Total capacity: <strong>${totalPracticeSessionsPerWeek * studentsPerSession} students</strong>
-                    `;
-                } else if (practiceHours > 1) {
-                    // Multiple hours on same day
-                    teamRecommendationText.innerHTML = `
-                        <strong>📋 Multiple Teams Recommended!</strong><br>
-                        You want ${students} students but your current capacity is only ${maxStudentCapacity} students per session.<br><br>
-                        <strong>Solution:</strong> Create ${sessionsNeeded} separate teams with different practice times!<br>
-                        For example:
-                        <ul style="margin-top: 10px; margin-left: 20px;">
-                            <li><strong>Team A:</strong> Practice at 3:00 PM (${studentsPerSession} students)</li>
-                            <li><strong>Team B:</strong> Practice at 4:30 PM (${studentsPerSession} students)</li>
-                            ${sessionsNeeded > 2 ? '<li><strong>Team C:</strong> Practice at another time</li>' : ''}
-                        </ul>
-                        <br>Each team gets their own practice hour + game time. Total capacity: <strong>${totalPracticeSessionsPerWeek * studentsPerSession} students</strong>
-                    `;
-                }
-            } else if (practiceDays > 1 || practiceHours > 1) {
-                // Multiple sessions available but not over capacity
-                const totalPracticeSessionsPerWeek = practiceDays * practiceHours;
-                const totalPossibleStudents = totalPracticeSessionsPerWeek * coaches * ratio;
-                
-                if (totalPracticeSessionsPerWeek > 1) {
-                    teamRecommendationBox.style.display = 'block';
-                    teamRecommendationText.innerHTML = `
-                        <strong>💡 Multiple Team Opportunity!</strong><br>
-                        With ${totalPracticeSessionsPerWeek} practice sessions per week, you could host ${totalPracticeSessionsPerWeek} separate teams.<br>
-                        This would allow you to serve up to <strong>${totalPossibleStudents} total students</strong> (${coaches * ratio} per team).<br><br>
-                        Consider splitting into teams for better age grouping or skill levels!
-                    `;
-                } else {
-                    teamRecommendationBox.style.display = 'none';
-                }
-            } else if (students > maxStudentCapacity) {
-                // Want more students but don't have multiple practice slots
-                teamRecommendationBox.style.display = 'block';
-                teamRecommendationText.innerHTML = `
-                    <strong>⚠️ Capacity Solution Needed!</strong><br>
-                    You want ${students} students but can only handle ${maxStudentCapacity} with current setup.<br><br>
-                    <strong>Options:</strong>
-                    <ul style="margin-top: 10px; margin-left: 20px;">
-                        <li>Add more practice days to create multiple teams</li>
-                        <li>Add more practice hours on the same day for different teams</li>
-                        <li>Add more coaches to increase capacity</li>
-                        <li>Adjust your student-to-coach ratio (currently ${ratio}:1)</li>
-                    </ul>
-                `;
-            } else {
-                teamRecommendationBox.style.display = 'none';
-            }
+            // Calculate max capacity
+            const maxStudentCapacity = totalCoaches * ratio;
             
             // Calculate hours
-            const weeklyPracticeHours = practiceDays * practiceHours * 1; // 1 hour per practice
-            const weeklyGameHours = gameDays * 3; // 3 hours per game day
-            const totalWeeklyHours = weeklyPracticeHours + weeklyGameHours;
-            const totalProgramHours = totalWeeklyHours * weeks;
+            const totalPracticeHours = practices * practiceDur;
+            const totalGameHours = games * gameDur;
+            const totalProgramContactHours = totalPracticeHours + totalGameHours;
             
             // Calculate coaching costs
-            const totalCoachingHoursAllCoaches = totalProgramHours * coaches;
-            const totalCoachingCost = totalCoachingHoursAllCoaches * hourlyRate;
+            const leadCoachCost = totalProgramContactHours * leadRate;
+            let assistantCoachesTotalCost = 0;
+            assistantCoaches.forEach(coach => {
+                assistantCoachesTotalCost += totalProgramContactHours * coach.rate;
+            });
+            const totalCoachingCost = leadCoachCost + assistantCoachesTotalCost;
             const coachingCostPerStudent = maxStudentCapacity > 0 ? totalCoachingCost / maxStudentCapacity : 0;
             
-            // Calculate other expenses (all for the season)
+            // Calculate other expenses (all for the program)
             const golfCourse = parseFloat(golfCourseAccess.value) || 0;
             const range = parseFloat(rangeAccess.value) || 0;
             const gifts = parseFloat(teeGifts.value) || 0;
@@ -1047,13 +1098,15 @@ Visit the calculator to adjust your planning and see updated recommendations.
             
             // Update capacity info
             document.getElementById('maxStudents').textContent = maxStudentCapacity;
-            document.getElementById('numCoachesDisplay').textContent = coaches;
+            document.getElementById('numCoachesDisplay').textContent = totalCoaches;
             document.getElementById('ratioDisplay').textContent = ratio;
-            document.getElementById('weeklyHours').textContent = totalWeeklyHours;
-            document.getElementById('practiceHours').textContent = weeklyPracticeHours;
-            document.getElementById('gameHours').textContent = weeklyGameHours;
-            document.getElementById('totalSeasonHours').textContent = totalProgramHours;
-            document.getElementById('seasonWeeks').textContent = weeks;
+            document.getElementById('totalPracticeHours').textContent = totalPracticeHours.toFixed(1);
+            document.getElementById('numPractices').textContent = practices;
+            document.getElementById('practiceLength').textContent = formatHours(practiceDur);
+            document.getElementById('totalGameHours').textContent = totalGameHours.toFixed(1);
+            document.getElementById('numGames').textContent = games;
+            document.getElementById('gameLength').textContent = formatHours(gameDur);
+            document.getElementById('totalProgramHours').textContent = totalProgramContactHours.toFixed(1);
             document.getElementById('maxCapacity').textContent = maxStudentCapacity;
             
             // Update recommended pricing
@@ -1063,7 +1116,17 @@ Visit the calculator to adjust your planning and see updated recommendations.
             document.getElementById('breakEvenStudents').textContent = breakEvenStudents;
             
             // Update breakdown
-            document.getElementById('totalCoachingHours').textContent = totalCoachingHoursAllCoaches;
+            document.getElementById('totalCoachingHours').textContent = (totalProgramContactHours * totalCoaches).toFixed(1);
+            document.getElementById('leadCoachCost').textContent = formatCurrency(leadCoachCost);
+            
+            // Show/hide assistant coach cost row
+            if (assistantCoaches.length > 0) {
+                document.getElementById('assistantCoachCostRow').style.display = 'flex';
+                document.getElementById('assistantCoachCost').textContent = formatCurrency(assistantCoachesTotalCost);
+            } else {
+                document.getElementById('assistantCoachCostRow').style.display = 'none';
+            }
+            
             document.getElementById('coachingPerStudent').textContent = formatCurrency(coachingCostPerStudent);
             document.getElementById('otherExpensePerStudent').textContent = formatCurrency(otherExpensesPerStudent);
             document.getElementById('totalCostPerStudent').textContent = formatCurrency(totalCostPerStudent);
