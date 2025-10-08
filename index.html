@@ -494,6 +494,28 @@
                         <input type="number" id="weeksInProgram" min="1" max="52" value="8" step="1">
                     </div>
                 </div>
+                
+                <div class="input-group">
+                    <label for="onlinePayment">Collecting Fees Online?</label>
+                    <p class="hint-text">Online payments typically charge 3% processing</p>
+                    <div class="input-wrapper">
+                        <select id="onlinePayment">
+                            <option value="no">No - Collecting by cash/check</option>
+                            <option value="yes">Yes - Using online payment system</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Online Payment Processing Notice -->
+            <div id="processingFeeNotice" class="info-banner" style="display: none; background: #fff3cd; border-left-color: #ffc107;">
+                <h3 style="color: #856404;">💳 Online Processing Fee Adjustment</h3>
+                <p style="color: #856404;">
+                    Online payment processors typically charge <strong>3% per transaction</strong>.<br>
+                    To maintain your target revenue, consider increasing your fee by 3%:<br>
+                    <strong>Adjusted Fee: <span id="adjustedFeeAmount">$0</span></strong> (instead of <span id="originalFeeAmount">$0</span>)<br>
+                    <span style="font-size: 0.9em;">This covers the <span id="processingCostAmount">$0</span> in processing fees for your program.</span>
+                </p>
             </div>
             
             <!-- Assistant Coaches Section -->
@@ -754,6 +776,7 @@
         const totalPractices = document.getElementById('totalPractices');
         const totalGameDays = document.getElementById('totalGameDays');
         const weeksInProgram = document.getElementById('weeksInProgram');
+        const onlinePayment = document.getElementById('onlinePayment');
         const actualFee = document.getElementById('actualFee');
         const enrolledStudents = document.getElementById('enrolledStudents');
         
@@ -900,7 +923,7 @@
             // All inputs except actualFee and enrolledStudents
             const planningInputs = [
                 studentRatio, leadCoachRate, practiceDuration, gameDuration,
-                totalPractices, totalGameDays, weeksInProgram,
+                totalPractices, totalGameDays, weeksInProgram, onlinePayment,
                 golfCourseAccess, rangeAccess, teeGifts, prizes, snacks, miscellaneous
             ];
             
@@ -1098,6 +1121,33 @@ Visit the calculator to adjust your planning and see updated recommendations.
             const totalCostPerStudent = coachingCostPerStudent + otherExpensesPerStudent;
             const recommendedStudentFee = totalCostPerStudent;
             
+            // Handle online payment processing
+            const isOnlinePayment = onlinePayment.value === 'yes';
+            const processingFeeNotice = document.getElementById('processingFeeNotice');
+            
+            if (isOnlinePayment) {
+                processingFeeNotice.style.display = 'block';
+                // Calculate 3% processing fee adjustment
+                const adjustedFee = Math.ceil(recommendedStudentFee / 0.97); // Divide by 0.97 to add 3% that will be taken
+                const processingCost = adjustedFee * 0.03;
+                const totalProcessingCost = processingCost * maxStudentCapacity;
+                
+                document.getElementById('adjustedFeeAmount').textContent = formatCurrency(adjustedFee);
+                document.getElementById('originalFeeAmount').textContent = formatCurrency(recommendedStudentFee);
+                document.getElementById('processingCostAmount').textContent = formatCurrency(totalProcessingCost);
+                
+                // Use adjusted fee if online payment is selected
+                if (updateRecommendations) {
+                    actualFee.value = Math.round(adjustedFee);
+                }
+            } else {
+                processingFeeNotice.style.display = 'none';
+                // Use regular fee if no online payment
+                if (updateRecommendations) {
+                    actualFee.value = Math.round(recommendedStudentFee);
+                }
+            }
+            
             // Calculate total expenses for all costs
             const totalAllExpenses = totalCoachingCost + otherExpenses;
             
@@ -1169,8 +1219,11 @@ Visit the calculator to adjust your planning and see updated recommendations.
             document.getElementById('netPerStudent').textContent = formatCurrency(netProfitPerStudent);
             
             // Auto-populate recommended values ONLY when updateRecommendations is true
-            if (updateRecommendations) {
+            if (updateRecommendations && !isOnlinePayment) {
                 actualFee.value = Math.round(recommendedStudentFee);
+                enrolledStudents.value = Math.min(breakEvenStudents, maxStudentCapacity);
+            } else if (updateRecommendations && isOnlinePayment) {
+                // Already handled above in online payment section
                 enrolledStudents.value = Math.min(breakEvenStudents, maxStudentCapacity);
             }
             
