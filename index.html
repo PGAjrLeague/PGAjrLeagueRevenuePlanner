@@ -489,7 +489,7 @@
                 
                 <div class="input-group">
                     <label for="weeksInProgram">Weeks in Program</label>
-                    <p class="hint-text">Typical program is 8-12 weeks</p>
+                    <p class="hint-text">Typical program is anywhere from 6-10 weeks. Feel free to adjust that up or down!</p>
                     <div class="input-wrapper">
                         <input type="number" id="weeksInProgram" min="1" max="52" value="8" step="1">
                     </div>
@@ -500,8 +500,8 @@
                     <p class="hint-text">Online payments typically charge 3% processing</p>
                     <div class="input-wrapper">
                         <select id="onlinePayment">
-                            <option value="no">No - Collecting by cash/check/through the Facility </option>
-                            <option value="yes">Yes - Using Stripe payment system</option>
+                            <option value="no">No - Collecting by cash/check</option>
+                            <option value="yes">Yes - Using online payment system</option>
                         </select>
                     </div>
                 </div>
@@ -738,7 +738,63 @@
             <div class="email-section">
                 <h3>📧 Email Your Results</h3>
                 <p>Get a copy of your program plan and financial calculations</p>
+                
                 <div style="margin-top: 20px;">
+                    <label for="pgaSection" style="display: block; margin-bottom: 10px; color: #1e3a5f; font-weight: 600;">Select Your PGA Section:</label>
+                    <select id="pgaSection" style="max-width: 400px; margin: 0 auto 15px;">
+                        <option value="">-- Select Your Section --</option>
+                        <option value="Alabama - NW Florida">Alabama - NW Florida</option>
+                        <option value="Aloha">Aloha</option>
+                        <option value="Carolinas">Carolinas</option>
+                        <option value="Central New York">Central New York</option>
+                        <option value="Colorado">Colorado</option>
+                        <option value="Connecticut">Connecticut</option>
+                        <option value="Gateway">Gateway</option>
+                        <option value="Georgia">Georgia</option>
+                        <option value="Gulf States">Gulf States</option>
+                        <option value="Illinois">Illinois</option>
+                        <option value="Indiana">Indiana</option>
+                        <option value="Kentucky">Kentucky</option>
+                        <option value="Metropolitan">Metropolitan</option>
+                        <option value="Michigan">Michigan</option>
+                        <option value="Middle Atlantic">Middle Atlantic</option>
+                        <option value="Midwest">Midwest</option>
+                        <option value="New England">New England</option>
+                        <option value="New Jersey">New Jersey</option>
+                        <option value="North Florida">North Florida</option>
+                        <option value="Northeastern New York">Northeastern New York</option>
+                        <option value="Northern California">Northern California</option>
+                        <option value="Northern Ohio">Northern Ohio</option>
+                        <option value="Northern Texas">Northern Texas</option>
+                        <option value="Pacific Northwest">Pacific Northwest</option>
+                        <option value="Philadelphia">Philadelphia</option>
+                        <option value="Rocky Mountain">Rocky Mountain</option>
+                        <option value="South Central">South Central</option>
+                        <option value="South Florida">South Florida</option>
+                        <option value="Southern California">Southern California</option>
+                        <option value="Southern Ohio">Southern Ohio</option>
+                        <option value="Southern Texas">Southern Texas</option>
+                        <option value="Southwest">Southwest</option>
+                        <option value="Sun Country">Sun Country</option>
+                        <option value="Tennessee">Tennessee</option>
+                        <option value="Tri-State">Tri-State</option>
+                        <option value="Utah">Utah</option>
+                        <option value="Western New York">Western New York</option>
+                        <option value="Wisconsin">Wisconsin</option>
+                    </select>
+                </div>
+                
+                <div id="pecInfo" style="display: none; margin: 15px auto; padding: 10px; background: #e8f1f8; border-radius: 8px; max-width: 400px;">
+                    <p style="color: #1e3a5f; font-size: 0.9em;">
+                        <strong>Your PEC:</strong> <span id="pecName"></span><br>
+                        <strong>PEC Email:</strong> <span id="pecEmail"></span>
+                    </p>
+                    <p style="color: #666; font-size: 0.85em; margin-top: 10px;">
+                        A copy will be sent to your Player Engagement Consultant
+                    </p>
+                </div>
+                
+                <div style="margin-top: 15px;">
                     <input type="email" id="emailAddress" placeholder="Enter your email address" style="max-width: 400px; margin: 0 auto;">
                 </div>
                 <button class="email-button" onclick="emailResults()">Email My Results</button>
@@ -764,6 +820,48 @@
     </div>
     
     <script>
+        // PEC Contact Data
+        const pecData = {
+            "Alabama - NW Florida": { name: "Frank Maynard III, PGA", email: "fmaynard@pgahq.com" },
+            "Aloha": { name: "Junko Harkins, PGA", email: "jharkins@pgahq.com" },
+            "Carolinas": { name: "Frank Maynard III, PGA", email: "fmaynard@pgahq.com" },
+            "Central New York": { name: "Brian Bain, PGA", email: "bbain@pgahq.com" },
+            "Colorado": { name: "Peter Weisel, PGA", email: "pweisel@pgahq.com" },
+            "Connecticut": { name: "Brian Bain, PGA", email: "bbain@pgahq.com" },
+            "Gateway": { name: "Ginger Brown Lemm, PGA", email: "gblemm@pgahq.com" },
+            "Georgia": { name: "Lauren Court", email: "lcourt@pgahq.com" },
+            "Gulf States": { name: "Ginger Brown Lemm, PGA", email: "gblemm@pgahq.com" },
+            "Illinois": { name: "Stacey Rice-Dorman, PGA", email: "srice@pgahq.com" },
+            "Indiana": { name: "Stacey Rice-Dorman, PGA", email: "srice@pgahq.com" },
+            "Kentucky": { name: "Chelsea Guoynes, PGA", email: "crguoynes@pgahq.com" },
+            "Metropolitan": { name: "Mike Smith, PGA", email: "msmith@pgahq.com" },
+            "Michigan": { name: "Stacey Rice-Dorman, PGA", email: "srice@pgahq.com" },
+            "Middle Atlantic": { name: "Chelsea Guoynes, PGA", email: "crguoynes@pgahq.com" },
+            "Midwest": { name: "Ginger Brown Lemm, PGA", email: "gblemm@pgahq.com" },
+            "New England": { name: "Brian Bain, PGA", email: "bbain@pgahq.com" },
+            "New Jersey": { name: "Mike Smith, PGA", email: "msmith@pgahq.com" },
+            "North Florida": { name: "Lauren Court", email: "lcourt@pgahq.com" },
+            "Northeastern New York": { name: "Brian Bain, PGA", email: "bbain@pgahq.com" },
+            "Northern California": { name: "Junko Harkins, PGA", email: "jharkins@pgahq.com" },
+            "Northern Ohio": { name: "Kim Shafer, PGA/LPGA", email: "kshafer@pgahq.com" },
+            "Northern Texas": { name: "Becca Bailey", email: "rbailey@pgahq.com" },
+            "Pacific Northwest": { name: "Patrick Oropallo, PGA", email: "poropallo@pgahq.com" },
+            "Philadelphia": { name: "Mike Smith, PGA", email: "msmith@pgahq.com" },
+            "Rocky Mountain": { name: "Peter Weisel, PGA", email: "pweisel@pgahq.com" },
+            "South Central": { name: "Ginger Brown Lemm, PGA", email: "gblemm@pgahq.com" },
+            "South Florida": { name: "Lauren Court", email: "lcourt@pgahq.com" },
+            "Southern California": { name: "Junko Harkins, PGA", email: "jharkins@pgahq.com" },
+            "Southern Ohio": { name: "Kim Shafer, PGA/LPGA", email: "kshafer@pgahq.com" },
+            "Southern Texas": { name: "Becca Bailey", email: "rbailey@pgahq.com" },
+            "Southwest": { name: "Patrick Oropallo, PGA", email: "poropallo@pgahq.com" },
+            "Sun Country": { name: "Becca Bailey", email: "rbailey@pgahq.com" },
+            "Tennessee": { name: "Frank Maynard III, PGA", email: "fmaynard@pgahq.com" },
+            "Tri-State": { name: "Kim Shafer, PGA/LPGA", email: "kshafer@pgahq.com" },
+            "Utah": { name: "Peter Weisel, PGA", email: "pweisel@pgahq.com" },
+            "Western New York": { name: "Mike Smith, PGA", email: "msmith@pgahq.com" },
+            "Wisconsin": { name: "Kim Shafer, PGA/LPGA", email: "kshafer@pgahq.com" }
+        };
+        
         // Track assistant coaches
         let assistantCoaches = [];
         let assistantCoachIdCounter = 0;
@@ -944,6 +1042,22 @@
             
             // Special listener for weeks to update practice guide
             weeksInProgram.addEventListener('input', updatePracticeGuide);
+            
+            // Section selector listener
+            const sectionSelector = document.getElementById('pgaSection');
+            sectionSelector.addEventListener('change', function() {
+                const pecInfo = document.getElementById('pecInfo');
+                const selectedSection = this.value;
+                
+                if (selectedSection && pecData[selectedSection]) {
+                    const pec = pecData[selectedSection];
+                    document.getElementById('pecName').textContent = pec.name;
+                    document.getElementById('pecEmail').textContent = pec.email;
+                    pecInfo.style.display = 'block';
+                } else {
+                    pecInfo.style.display = 'none';
+                }
+            });
         }
         
         // Format currency
@@ -975,6 +1089,16 @@
             if (!emailAddress) {
                 alert('Please enter your email address');
                 return;
+            }
+            
+            // Get selected section and PEC info
+            const selectedSection = document.getElementById('pgaSection').value;
+            let pecEmail = '';
+            let pecName = '';
+            
+            if (selectedSection && pecData[selectedSection]) {
+                pecEmail = pecData[selectedSection].email;
+                pecName = pecData[selectedSection].name;
             }
             
             // Gather all the data
@@ -1014,11 +1138,12 @@
             practiceGuideText += 'https://resources.pga.org/increase-revenue/player-engagement/pga-player-engagement-consultants\n';
             
             // Create email content
-            const subject = `PGA Jr. League Program Plan - ${weeks} Week Program`;
+            const subject = `PGA Jr. League Program Plan - ${weeks} Week Program${selectedSection ? ' - ' + selectedSection : ''}`;
             const body = `
 PGA JR. LEAGUE PROGRAM SUMMARY
 ================================
 
+${selectedSection ? `PGA SECTION: ${selectedSection}\n` : ''}${pecName ? `PLAYER ENGAGEMENT CONSULTANT: ${pecName}\n` : ''}
 PROGRAM DETAILS:
 - Program Length: ${weeks} weeks
 - Maximum Capacity: ${document.getElementById('maxStudents').textContent} students
@@ -1028,7 +1153,7 @@ PROGRAM DETAILS:
 
 FINANCIAL SUMMARY:
 - Recommended Program Fee: ${recommendedFee}
-- Your Program Fee: $${document.getElementById('actualFee').value}
+- Your Program Fee: ${document.getElementById('actualFee').value}
 - Total Revenue: ${revenue}
 - Total Expenses: ${expenses}
 - Net Profit: ${netProfit}
@@ -1057,8 +1182,14 @@ Visit the calculator to adjust your planning and see updated recommendations.
                 }, 5000);
             });
             
-            // Also try to open email client (might not work in all browsers)
-            const mailto = `mailto:${emailAddress}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            // Create mailto link with CC to PEC if selected
+            let mailto = `mailto:${emailAddress}`;
+            if (pecEmail) {
+                mailto += `?cc=${pecEmail}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            } else {
+                mailto += `?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            }
+            
             window.location.href = mailto;
         }
         
